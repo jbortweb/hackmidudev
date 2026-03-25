@@ -32,6 +32,7 @@ class ProjectsTableSeeder extends Seeder
         $projects = [
             [
                 'user_id' => $userIds[0],
+                'author' => 'Dev Robots',
                 'title' => 'Key Leap',
                 'description' => 'Un juego interactivo de seguridad informática donde debes descifrar contraseñas para avanzar niveles.',
                 'technologies' => 'Vue.js,TensorFlow.js,TailwindCSS',
@@ -45,6 +46,7 @@ class ProjectsTableSeeder extends Seeder
             ],
             [
                 'user_id' => $userIds[1],
+                'author' => 'Yare García',
                 'title' => 'Finanzz',
                 'description' => 'Gestión de finanzas personales simplificada con IA.',
                 'technologies' => 'React,Node.js,OpenAI',
@@ -58,6 +60,7 @@ class ProjectsTableSeeder extends Seeder
             ],
             [
                 'user_id' => $userIds[3],
+                'author' => 'Jordi Bort',
                 'title' => 'Lencería Maduixa',
                 'description' => 'E-commerce especializado en lencería de diseño local.',
                 'technologies' => 'Astro,Shopify,Svelte,TailwindCSS',
