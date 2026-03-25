@@ -19,19 +19,24 @@ class ProjectsTableSeeder extends Seeder
 
         $userIds = [];
         foreach ($users as $user) {
-            $userIds[] = DB::table('users')->insertGetId([
-                'clerk_id' => $user['clerk_id'],
-                'name' => $user['name'],
-                'email' => $user['email'],
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            $existingUser = DB::table('users')->where('email', $user['email'])->first();
+            
+            if ($existingUser) {
+                $userIds[] = $existingUser->id;
+            } else {
+                $userIds[] = DB::table('users')->insertGetId([
+                    'clerk_id' => $user['clerk_id'],
+                    'name' => $user['name'],
+                    'email' => $user['email'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
         }
 
         // Proyectos de prueba
         $projects = [
             [
-                'user_id' => $userIds[0],
                 'author' => 'Dev Robots',
                 'title' => 'Key Leap',
                 'description' => 'Un juego interactivo de seguridad informática donde debes descifrar contraseñas para avanzar niveles.',
@@ -43,9 +48,9 @@ class ProjectsTableSeeder extends Seeder
                 'winner' => 1,
                 'likes' => 150,
                 'comments_count' => 5,
+                'user_index' => 0
             ],
             [
-                'user_id' => $userIds[1],
                 'author' => 'Yare García',
                 'title' => 'Finanzz',
                 'description' => 'Gestión de finanzas personales simplificada con IA.',
@@ -57,9 +62,9 @@ class ProjectsTableSeeder extends Seeder
                 'winner' => 2,
                 'likes' => 120,
                 'comments_count' => 3,
+                'user_index' => 1
             ],
             [
-                'user_id' => $userIds[3],
                 'author' => 'Jordi Bort',
                 'title' => 'Lencería Maduixa',
                 'description' => 'E-commerce especializado en lencería de diseño local.',
@@ -71,13 +76,22 @@ class ProjectsTableSeeder extends Seeder
                 'winner' => 0,
                 'likes' => 85,
                 'comments_count' => 2,
+                'user_index' => 3
             ],
         ];
 
         foreach ($projects as $project) {
-            $project['created_at'] = now();
-            $project['updated_at'] = now();
-            DB::table('projects')->insert($project);
+            $existingProject = DB::table('projects')->where('title', $project['title'])->first();
+            
+            if (!$existingProject) {
+                $userIndex = $project['user_index'];
+                unset($project['user_index']);
+                
+                $project['user_id'] = $userIds[$userIndex];
+                $project['created_at'] = now();
+                $project['updated_at'] = now();
+                DB::table('projects')->insert($project);
+            }
         }
     }
 }
