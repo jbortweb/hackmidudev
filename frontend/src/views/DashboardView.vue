@@ -50,7 +50,9 @@ const deleteProject = async () => {
     if (!isLoaded.value) return
     const token = await getToken.value()
     await projectService.delete(projectToDelete.value, token)
-    projects.value = projects.value.filter(p => p.id !== projectToDelete.value)
+    if (Array.isArray(projects.value)) {
+      projects.value = projects.value.filter(p => p.id !== projectToDelete.value)
+    }
     toast.success('Proyecto eliminado correctamente')
   } catch (err) {
     console.error('Error al eliminar proyecto:', err)
