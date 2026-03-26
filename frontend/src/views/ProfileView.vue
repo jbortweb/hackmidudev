@@ -52,7 +52,7 @@ const fetchProfile = async () => {
     
     form.value = {
       name: userData.name || user.value?.fullName || '',
-      email: userData.email || user.value?.primaryEmailAddress?.emailAddress || '',
+      email: userData.email || '',
       avatar_url: storedAvatar || clerkAvatar,
       github_url: userData.github_url || '',
       linkedin_url: userData.linkedin_url || '',
@@ -73,6 +73,7 @@ const handleUpdate = async () => {
     
     const payload = {
       name: form.value.name,
+      email: form.value.email,
       avatar_url: form.value.avatar_url,
       github_url: form.value.github_url,
       linkedin_url: form.value.linkedin_url,
