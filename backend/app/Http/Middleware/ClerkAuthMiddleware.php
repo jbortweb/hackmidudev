@@ -43,7 +43,7 @@ class ClerkAuthMiddleware
                 ['clerk_id' => $clerkId],
                 [
                     'name' => $decoded->name ?? $decoded->username ?? 'Usuario Clerk',
-                    'email' => $decoded->email ?? 'no-email@clerk.com',
+                    'email' => $decoded->email ?? $clerkId . '@clerk.local',
                 ]
             );
 
