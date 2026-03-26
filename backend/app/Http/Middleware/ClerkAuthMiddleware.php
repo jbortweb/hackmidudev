@@ -42,8 +42,8 @@ class ClerkAuthMiddleware
             $user = User::firstOrCreate(
                 ['clerk_id' => $clerkId],
                 [
-                    'name' => $decoded->name ?? $decoded->username ?? 'Usuario Clerk',
-                    'email' => $decoded->email ?? $clerkId . '@clerk.local',
+                    'name' => '',
+                    'email' => '',
                 ]
             );
 

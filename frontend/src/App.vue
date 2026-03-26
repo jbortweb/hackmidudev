@@ -38,6 +38,10 @@ import TheFooter from './components/TheFooter.vue'
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap');
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --color-neon-green: #00ff41;
 }
@@ -49,7 +53,7 @@ body {
 }
 
 .font-mono {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
 }
 
 /* Scrollbar estilo terminal */
