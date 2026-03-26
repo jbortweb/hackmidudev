@@ -54,9 +54,11 @@ class ClerkAuthMiddleware
             return $next($request);
 
         } catch (\Exception $e) {
+            \Log::error('Clerk auth failed: ' . $e->getMessage());
             return response()->json([
                 'message' => 'Token inválido o expirado',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
+                'jwks_url' => $this->jwksUrl
             ], 401);
         }
     }
