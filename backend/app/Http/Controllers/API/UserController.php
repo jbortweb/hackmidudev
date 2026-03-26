@@ -44,6 +44,9 @@ class UserController extends Controller
         if (!empty($validatedData['name'])) {
             $user->name = $validatedData['name'];
         }
+        if (!empty($validatedData['email'])) {
+            $user->email = $validatedData['email'];
+        }
         if (!empty($validatedData['github_url'])) {
             $user->github_url = $validatedData['github_url'];
         }
