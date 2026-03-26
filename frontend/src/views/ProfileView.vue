@@ -43,7 +43,7 @@ const fetchProfile = async () => {
   if (!isLoaded.value || !isSignedIn.value) return
   try {
     fetching.value = true
-    const token = await getToken()
+    const token = await getToken.value()
     const response = await userService.getProfile(token)
     const userData = response.data
     
@@ -69,7 +69,7 @@ const handleUpdate = async () => {
   try {
     if (!isLoaded.value || !isSignedIn.value) return
     loading.value = true
-    const token = await getToken()
+    const token = await getToken.value()
     
     const payload = {
       name: form.value.name,
@@ -97,10 +97,10 @@ const handleDeleteAccount = () => {
 const confirmDelete = async () => {
   try {
     deleting.value = true
-    const token = await getToken()
+    const token = await getToken.value()
     await userService.deleteProfile(token)
     toast.success('Cuenta eliminada correctamente')
-    await signOut()
+    await signOut.value()
   } catch (err) {
     console.error('Error al eliminar cuenta:', err)
     toast.error('Error al eliminar la cuenta.')

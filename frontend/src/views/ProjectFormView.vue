@@ -61,7 +61,7 @@ const fetchProject = async () => {
 const handleSubmit = async () => {
   try {
     loading.value = true
-    const token = await getToken()
+    const token = await getToken.value()
     
     const payload = { ...form.value }
 

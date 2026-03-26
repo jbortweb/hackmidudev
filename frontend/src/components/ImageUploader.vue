@@ -55,7 +55,7 @@ const uploadFiles = async (files) => {
   error.value = null
   
   try {
-    const token = await getToken()
+    const token = await getToken.value()
     let images = getImages()
     
     for (const file of files) {
@@ -106,7 +106,7 @@ const removeImage = async (index) => {
   if (url.includes('/storage/') || url.includes('/img/')) {
     try {
       if (isLoaded.value) {
-        const token = await getToken()
+        const token = await getToken.value()
         await axios.delete(
           `${import.meta.env.VITE_API_URL || 'http://localhost:8000/api'}/images/delete`,
           {

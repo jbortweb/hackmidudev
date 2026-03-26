@@ -32,7 +32,7 @@ watch([isLoaded, isSignedIn], ([loaded, signedIn]) => {
 const fetchUserProjects = async () => {
   try {
     loading.value = true
-    const token = await getToken()
+    const token = await getToken.value()
     const response = await userService.getProfile(token)
     projects.value = response.data.projects || []
   } catch (err) {
@@ -52,7 +52,7 @@ const deleteProject = async () => {
   
   try {
     if (!isLoaded.value) return
-    const token = await getToken()
+    const token = await getToken.value()
     await projectService.delete(projectToDelete.value, token)
     if (Array.isArray(projects.value)) {
       projects.value = projects.value.filter(p => p.id !== projectToDelete.value)
