@@ -15,19 +15,22 @@ return [
     |
     */
 
-    'paths' => ['api/*'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
-    'allowed_methods' => ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    'allowed_methods' => ['*'],
 
     'allowed_origins' => [
         'http://localhost:5173',
         'http://127.0.0.1:5173',
         'https://hackmidu.netlify.app',
+        'https://hackmidu.netlify.app/',
     ],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        '/^https:\/\/.*\.netlify\.app$/',
+    ],
 
-    'allowed_headers' => ['Content-Type', 'Authorization', 'Accept', 'X-Requested-With'],
+    'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
 

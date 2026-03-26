@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { useUser, useAuth } from '@clerk/vue'
@@ -8,6 +8,10 @@ import { projectService, userService } from '../services/api'
 import ConfirmModal from '../components/ConfirmModal.vue'
 
 const router = useRouter()
+
+const baseUrl = computed(() => {
+  return import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:8000'
+})
 const { user } = useUser()
 const { isLoaded, isSignedIn, getToken } = useAuth()
 const projects = ref([])
@@ -121,7 +125,7 @@ onMounted(() => {
           <div class="aspect-video bg-black relative overflow-hidden border-b border-green-500/10">
             <img 
               v-if="project.images && project.images[0]" 
-              :src="project.images[0].startsWith('http') ? project.images[0] : (import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:8000') + project.images[0]" 
+              :src="project.images[0].startsWith('http') ? project.images[0] : baseUrl + project.images[0]" 
               class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500"
             />
             <div v-else class="w-full h-full flex items-center justify-center text-green-500/20 italic text-[10px] uppercase">

@@ -33,7 +33,6 @@ const images = computed(() => {
 const texts = computed(() => {
   return props.projects.map(p => p.title);
 });
-...
 
 const goTo = (idx) => {
   current.value = idx;
