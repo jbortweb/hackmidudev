@@ -23,7 +23,8 @@ const getProjectImage = (images) => {
   if (Array.isArray(images) && images.length > 0) {
     const firstImage = images[0]
     if (firstImage.startsWith('/img/') || firstImage.startsWith('/storage/')) {
-      return `http://localhost:8000${firstImage}`
+      const baseUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:8000'
+      return `${baseUrl}${firstImage}`
     }
     return firstImage
   }

@@ -34,7 +34,8 @@ const fetchProject = async () => {
 
 const formatImageUrl = (url) => {
   if (url && (url.startsWith('/img/') || url.startsWith('/storage/'))) {
-    return `http://localhost:8000${url}`
+    const baseUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:8000'
+    return `${baseUrl}${url}`
   }
   return url
 }

@@ -13,16 +13,18 @@ let interval = null;
 
 // Obtenemos las imágenes y textos de los proyectos ganadores
 const images = computed(() => {
+  const baseUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:8000'
+
   return props.projects.map(p => {
     if (Array.isArray(p.images) && p.images.length > 0) {
       const firstImage = p.images[0];
       if (firstImage.startsWith('/img/') || firstImage.startsWith('/storage/')) {
-        return `http://localhost:8000${firstImage}`;
+        return `${baseUrl}${firstImage}`;
       }
       if (firstImage.startsWith('http')) {
         return firstImage;
       }
-      return 'http://localhost:8000/storage/' + firstImage;
+      return `${baseUrl}/storage/${firstImage}`;
     }
     return 'https://placehold.co/1200x800.webp?text=' + encodeURIComponent(p.title);
   });
@@ -31,6 +33,7 @@ const images = computed(() => {
 const texts = computed(() => {
   return props.projects.map(p => p.title);
 });
+...
 
 const goTo = (idx) => {
   current.value = idx;

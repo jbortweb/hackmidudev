@@ -121,7 +121,7 @@ onMounted(() => {
           <div class="aspect-video bg-black relative overflow-hidden border-b border-green-500/10">
             <img 
               v-if="project.images && project.images[0]" 
-              :src="project.images[0].startsWith('http') ? project.images[0] : 'http://localhost:8000' + project.images[0]" 
+              :src="project.images[0].startsWith('http') ? project.images[0] : (import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:8000') + project.images[0]" 
               class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity duration-500"
             />
             <div v-else class="w-full h-full flex items-center justify-center text-green-500/20 italic text-[10px] uppercase">

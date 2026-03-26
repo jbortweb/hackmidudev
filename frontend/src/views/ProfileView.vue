@@ -35,7 +35,8 @@ watch([isLoaded, isSignedIn], ([loaded, signedIn]) => {
 const getAvatarUrl = (url) => {
   if (!url) return ''
   if (url.startsWith('http')) return url
-  return `http://localhost:8000${url}`
+  const baseUrl = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api', '') : 'http://localhost:8000'
+  return `${baseUrl}${url}`
 }
 
 const fetchProfile = async () => {
