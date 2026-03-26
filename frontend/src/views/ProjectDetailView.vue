@@ -69,7 +69,7 @@ const handleLike = async () => {
   
   try {
     isLiking.value = true
-    const token = await getToken.value()
+    const token = await getToken()
     const response = await projectService.toggleLike(route.params.id, token)
     
     isLiked.value = response.data.liked
@@ -91,7 +91,7 @@ const submitComment = async () => {
   }
   
   try {
-    const token = await getToken.value()
+    const token = await getToken()
     await projectService.addComment(route.params.id, { content: newComment.value }, token)
     toast.success('Comentario publicado')
     await fetchProject()

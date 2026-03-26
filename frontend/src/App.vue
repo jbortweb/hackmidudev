@@ -12,7 +12,7 @@ const { isLoaded: authLoaded, getToken } = useAuth()
 watch(() => user.value, async (newUser) => {
   if (newUser && authLoaded.value) {
     try {
-      const token = await getToken.value()
+      const token = await getToken()
       await userService.sync({
         name: newUser.fullName || newUser.username || 'Participante',
         email: newUser.primaryEmailAddress?.emailAddress,
