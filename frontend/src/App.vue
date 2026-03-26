@@ -1,28 +1,6 @@
 <script setup>
-import { watch } from 'vue'
-import { useUser, useAuth } from '@clerk/vue'
-import { userService } from './services/api'
 import TheHeader from './components/TheHeader.vue'
 import TheFooter from './components/TheFooter.vue'
-
-const { user } = useUser()
-const { isLoaded: authLoaded, getToken } = useAuth()
-
-// Sincronizar usuario con el backend al iniciar sesión
-watch(() => user.value, async (newUser) => {
-  if (newUser && authLoaded.value) {
-    try {
-      const token = await getToken()
-      await userService.sync({
-        name: newUser.fullName || newUser.username || 'Participante',
-        email: newUser.primaryEmailAddress?.emailAddress,
-        avatar_url: newUser.imageUrl,
-      }, token)
-    } catch (error) {
-      console.error('Error al sincronizar usuario:', error)
-    }
-  }
-}, { immediate: true })
 </script>
 
 <template>

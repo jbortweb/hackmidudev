@@ -38,7 +38,7 @@ const handleLogout = () => {
 }
 
 const confirmLogout = async () => {
-  await signOut.value()
+  await signOut()
 }
 </script>
 
