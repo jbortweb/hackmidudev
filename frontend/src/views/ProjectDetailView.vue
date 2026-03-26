@@ -127,122 +127,14 @@ onMounted(fetchProject)
 
     <div v-else-if="project" class="max-w-6xl mx-auto">
       
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- En móvil: sidebar primero, luego contenido, luego comentarios -->
+      <!-- En desktop: sidebar a la derecha, contenido a la izquierda -->
+      
+      <!-- Sidebar - Móvil primero / Desktop derecha -->
+      <div class="lg:grid lg:grid-cols-12 lg:gap-12 space-y-8 lg:space-y-0">
         
-        <!-- Columna Izquierda: Proyecto -->
-        <div class="lg:col-span-8">
-          <header class="mb-12 relative">
-            <div class="flex items-center gap-3 mb-6">
-              <div v-if="project.winner > 0" class="flex items-center gap-1.5 px-3 py-1 rounded bg-yellow-500 text-black text-[10px] font-black uppercase italic shadow-[0_0_20px_rgba(234,179,8,0.4)]">
-                <Trophy :size="12" />
-                PROYECTO GANADOR
-              </div>
-            </div>
-            
-            <h1 class="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter leading-[0.85] uppercase italic drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-              {{ project.title }}
-            </h1>
-
-            <!-- Tecnologías -->
-            <div class="flex flex-wrap gap-3 mb-10">
-              <span v-for="tech in project.technologies?.split(',')" :key="tech" class="px-3 py-1 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase rounded-full bg-green-500/5">
-                {{ tech.trim() }}
-              </span>
-            </div>
-          </header>
-
-          <!-- Galería Real (Hasta 3 imágenes) -->
-          <section class="grid grid-cols-1 gap-6 mb-16">
-            <div 
-              v-for="(img, index) in project.images?.slice(0, 3)" 
-              :key="index" 
-              class="rounded-3xl overflow-hidden border border-green-900/30 relative group shadow-2xl bg-gray-900"
-            >
-              <img :src="formatImageUrl(img)" class="w-full h-auto min-h-[300px] object-cover opacity-90 group-hover:opacity-100 transition-all duration-700" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
-              <div class="absolute bottom-6 left-6 text-[10px] text-green-500/40 font-mono uppercase tracking-[0.3em]">CAPTURA_DE_PANTALLA_0{{ index + 1 }}</div>
-            </div>
-          </section>
-
-          <!-- Manifiesto -->
-          <div class="p-10 border border-green-900/20 rounded-[2.5rem] bg-green-500/5 backdrop-blur-sm relative overflow-hidden mb-16">
-            <h2 class="text-xl font-black text-white mb-8 uppercase tracking-tighter italic flex items-center gap-3">
-              <span class="text-green-500">>></span> DESCRIPCIÓN_DEL_PROYECTO
-            </h2>
-            <p class="text-gray-300 leading-relaxed text-lg whitespace-pre-wrap font-medium">
-              {{ project.description }}
-            </p>
-          </div>
-
-          <!-- SECCIÓN COMENTARIOS -->
-          <section class="space-y-8">
-            <h2 class="text-xl font-black text-white uppercase tracking-tighter italic flex items-center gap-3">
-              <MessageSquare :size="20" class="text-green-500" />
-              FEEDBACK_DEL_SISTEMA ({{ project.comments?.length || 0 }})
-            </h2>
-
-            <!-- Formulario Comentar -->
-            <div class="p-6 rounded-3xl bg-black/40">
-              <textarea 
-                v-model="newComment"
-                placeholder="Escribe un comentario..."
-                class="w-full bg-transparent p-2 border-2 border-green-900/90 text-green-400 placeholder:text-gray-300/50! focus:ring-0 focus:outline-none resize-auto font-mono text-md mb-4"
-                rows="3"
-              ></textarea>
-              <div class="flex justify-end border-t border-green-900/10 pt-4">
-                <button 
-                  @click="submitComment"
-                  class="flex items-center gap-2 px-6 py-2 bg-green-500 text-black rounded-xl font-black text-xs hover:bg-white transition-all uppercase italic"
-                >
-                  ENVIAR_MENSAJE <Send :size="14" />
-                </button>
-              </div>
-            </div>
-
-            <!-- Lista de Comentarios Cronológica -->
-            <div class="space-y-4">
-              <div 
-                v-for="comment in paginatedComments" 
-                :key="comment.id"
-                class="p-6 border border-green-900/10 rounded-2xl bg-green-500/2 hover:bg-green-500/5 transition-colors"
-              >
-                <div class="flex items-center gap-3 mb-3">
-                  <img v-if="comment.user?.avatar_url" :src="formatImageUrl(comment.user.avatar_url)" class="w-8 h-8 rounded-lg border border-green-500/20 object-cover" />
-                  <div v-else class="w-8 h-8 rounded-lg border border-green-500/20 bg-green-500/10 flex items-center justify-center">
-                    <User :size="16" class="text-green-500/50" />
-                  </div>
-                  <div>
-                    <span class="text-white text-xs font-black uppercase">{{ comment.user?.name || 'Anónimo' }}</span>
-                    <span class="text-[10px] text-green-900 ml-3">{{ new Date(comment.created_at).toLocaleString() }}</span>
-                  </div>
-                </div>
-                <p class="text-gray-400 text-sm leading-relaxed">{{ comment.content }}</p>
-              </div>
-            </div>
-
-            <!-- Paginación de a 5 -->
-            <div v-if="totalPages > 1" class="flex items-center justify-center gap-4 mt-10">
-              <button 
-                @click="currentPage--" 
-                :disabled="currentPage === 1"
-                class="px-4 py-2 border border-green-900/30 text-green-500 rounded-lg text-xs font-black disabled:opacity-20 hover:bg-green-500/10 transition-all italic"
-              >
-                &lt;&lt; ANTERIOR
-              </button>
-              <span class="text-[10px] text-green-900 font-black">PÁGINA {{ currentPage }} DE {{ totalPages }}</span>
-              <button 
-                @click="currentPage++" 
-                :disabled="currentPage === totalPages"
-                class="px-4 py-2 border border-green-900/30 text-green-500 rounded-lg text-xs font-black disabled:opacity-20 hover:bg-green-500/10 transition-all italic"
-              >
-                SIGUIENTE >>
-              </button>
-            </div>
-          </section>
-        </div>
-
-        <!-- Columna Derecha: Sidebar Perfil -->
-        <aside class="lg:col-span-4 space-y-8">
+        <!-- Sidebar (orden 1 en móvil, orden 2 en desktop) -->
+        <aside class="lg:col-span-4 lg:order-2 space-y-8">
           
           <!-- Botón de Like -->
           <button 
@@ -314,7 +206,120 @@ onMounted(fetchProject)
             </a>           </div>
 
         </aside>
+
+        <!-- Columna Izquierda: Proyecto (orden 2 en móvil, orden 1 en desktop) -->
+        <div class="lg:col-span-8 lg:order-1">
+          <header class="mb-12 relative">
+            <div class="flex items-center gap-3 mb-6">
+              <div v-if="project.winner > 0" class="flex items-center gap-1.5 px-3 py-1 rounded bg-yellow-500 text-black text-[10px] font-black uppercase italic shadow-[0_0_20px_rgba(234,179,8,0.4)]">
+                <Trophy :size="12" />
+                PROYECTO GANADOR
+              </div>
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter leading-[0.85] uppercase italic drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
+              {{ project.title }}
+            </h1>
+
+            <!-- Tecnologías -->
+            <div class="flex flex-wrap gap-3 mb-10">
+              <span v-for="tech in project.technologies?.split(',')" :key="tech" class="px-3 py-1 border border-green-500/20 text-green-400 text-[10px] font-bold uppercase rounded-full bg-green-500/5">
+                {{ tech.trim() }}
+              </span>
+            </div>
+          </header>
+
+          <!-- Galería Real (Hasta 3 imágenes) -->
+          <section class="grid grid-cols-1 gap-6 mb-16">
+            <div 
+              v-for="(img, index) in project.images?.slice(0, 3)" 
+              :key="index" 
+              class="rounded-3xl overflow-hidden border border-green-900/30 relative group shadow-2xl bg-gray-900"
+            >
+              <img :src="formatImageUrl(img)" class="w-full h-auto min-h-[300px] object-cover opacity-90 group-hover:opacity-100 transition-all duration-700" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60"></div>
+              <div class="absolute bottom-6 left-6 text-[10px] text-green-500/40 font-mono uppercase tracking-[0.3em]">CAPTURA_DE_PANTALLA_0{{ index + 1 }}</div>
+            </div>
+          </section>
+
+          <!-- Manifiesto -->
+          <div class="p-10 border border-green-900/20 rounded-[2.5rem] bg-green-500/5 backdrop-blur-sm relative overflow-hidden mb-16">
+            <h2 class="text-xl font-black text-white mb-8 uppercase tracking-tighter italic flex items-center gap-3">
+              <span class="text-green-500">>></span> DESCRIPCIÓN_DEL_PROYECTO
+            </h2>
+            <p class="text-gray-300 leading-relaxed text-lg whitespace-pre-wrap font-medium">
+              {{ project.description }}
+            </p>
+          </div>
+        </div>
+        
       </div>
+
+      <!-- SECCIÓN COMENTARIOS - Siempre al final -->
+      <section class="mt-16 space-y-8">
+        <h2 class="text-xl font-black text-white uppercase tracking-tighter italic flex items-center gap-3">
+          <MessageSquare :size="20" class="text-green-500" />
+          FEEDBACK_DEL_SISTEMA ({{ project.comments?.length || 0 }})
+        </h2>
+
+        <!-- Formulario Comentar -->
+        <div class="p-6 rounded-3xl bg-black/40">
+          <textarea 
+            v-model="newComment"
+            placeholder="Escribe un comentario..."
+            class="w-full bg-transparent p-2 border-2 border-green-900/90 text-green-400 placeholder:text-gray-300/50! focus:ring-0 focus:outline-none resize-auto font-mono text-md mb-4"
+            rows="3"
+          ></textarea>
+          <div class="flex justify-end border-t border-green-900/10 pt-4">
+            <button 
+              @click="submitComment"
+              class="flex items-center gap-2 px-6 py-2 bg-green-500 text-black rounded-xl font-black text-xs hover:bg-white transition-all uppercase italic"
+            >
+              ENVIAR_MENSAJE <Send :size="14" />
+            </button>
+          </div>
+        </div>
+
+        <!-- Lista de Comentarios Cronológica -->
+        <div class="space-y-4">
+          <div 
+            v-for="comment in paginatedComments" 
+            :key="comment.id"
+            class="p-6 border border-green-900/10 rounded-2xl bg-green-500/2 hover:bg-green-500/5 transition-colors"
+          >
+            <div class="flex items-center gap-3 mb-3">
+              <img v-if="comment.user?.avatar_url" :src="formatImageUrl(comment.user.avatar_url)" class="w-8 h-8 rounded-lg border border-green-500/20 object-cover" />
+              <div v-else class="w-8 h-8 rounded-lg border border-green-500/20 bg-green-500/10 flex items-center justify-center">
+                <User :size="16" class="text-green-500/50" />
+              </div>
+              <div>
+                <span class="text-white text-xs font-black uppercase">{{ comment.user?.name || 'Anónimo' }}</span>
+                <span class="text-[10px] text-green-900 ml-3">{{ new Date(comment.created_at).toLocaleString() }}</span>
+              </div>
+            </div>
+            <p class="text-gray-400 text-sm leading-relaxed">{{ comment.content }}</p>
+          </div>
+        </div>
+
+        <!-- Paginación de a 5 -->
+        <div v-if="totalPages > 1" class="flex items-center justify-center gap-4 mt-10">
+          <button 
+            @click="currentPage--" 
+            :disabled="currentPage === 1"
+            class="px-4 py-2 border border-green-900/30 text-green-500 rounded-lg text-xs font-black disabled:opacity-20 hover:bg-green-500/10 transition-all italic"
+          >
+            &lt;&lt; ANTERIOR
+          </button>
+          <span class="text-[10px] text-green-900 font-black">PÁGINA {{ currentPage }} DE {{ totalPages }}</span>
+          <button 
+            @click="currentPage++" 
+            :disabled="currentPage === totalPages"
+            class="px-4 py-2 border border-green-900/30 text-green-500 rounded-lg text-xs font-black disabled:opacity-20 hover:bg-green-500/10 transition-all italic"
+          >
+            SIGUIENTE >>
+          </button>
+        </div>
+      </section>
     </div>
   </div>
 </template>

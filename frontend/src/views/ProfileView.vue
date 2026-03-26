@@ -2,14 +2,13 @@
 import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
-import { useUser, useAuth } from '@clerk/vue'
+import { useAuth } from '@clerk/vue'
 import { Save, ArrowLeft, Github, Linkedin, Globe, User, ShieldCheck, Mail, Trash2 } from 'lucide-vue-next'
 import { userService } from '../services/api'
 import ImageUploader from '../components/ImageUploader.vue'
 import ConfirmModal from '../components/ConfirmModal.vue'
 
 const router = useRouter()
-const { user } = useUser()
 const { isLoaded, isSignedIn, getToken, signOut } = useAuth()
 
 const loading = ref(false)
@@ -47,13 +46,10 @@ const fetchProfile = async () => {
     const response = await userService.getProfile(token)
     const userData = response.data
     
-    const clerkAvatar = user.value?.imageUrl || ''
-    const storedAvatar = userData.avatar_url || ''
-    
     form.value = {
-      name: userData.name || user.value?.fullName || '',
+      name: userData.name || '',
       email: userData.email || '',
-      avatar_url: storedAvatar || clerkAvatar,
+      avatar_url: userData.avatar_url || '',
       github_url: userData.github_url || '',
       linkedin_url: userData.linkedin_url || '',
       website_url: userData.website_url || ''
@@ -133,11 +129,14 @@ onMounted(() => {
         <div>
           <h1 class="text-3xl font-black text-white uppercase tracking-tighter">CONFIG_PERFIL.sh</h1>
           <p class="text-green-500/60 text-xs italic mt-2 uppercase">
-            > Nodo_Usuario: {{ user?.username || 'user_anon' }}
+            > Nodo_Usuario: {{ form.name || 'usuario_nuevo' }}
           </p>
         </div>
         <div class="hidden sm:block">
-          <img :src="getAvatarUrl(form.avatar_url) || user?.imageUrl" class="w-16 h-16 rounded-lg border-2 border-green-500/30 object-cover" />
+          <img v-if="form.avatar_url" :src="getAvatarUrl(form.avatar_url)" class="w-16 h-16 rounded-lg border-2 border-green-500/30 object-cover" />
+          <div v-else class="w-16 h-16 rounded-lg border-2 border-green-500/30 bg-green-500/10 flex items-center justify-center">
+            <User :size="24" class="text-green-500/50" />
+          </div>
         </div>
       </div>
 
