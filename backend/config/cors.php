@@ -22,8 +22,7 @@ return [
     'allowed_origins' => [
         'http://localhost:5173',
         'http://127.0.0.1:5173',
-        // Añadir URLs de producción aquí:
-        // 'https://tu-dominio.com',
+        'https://hackmidu.netlify.app',
     ],
 
     'allowed_origins_patterns' => [],
