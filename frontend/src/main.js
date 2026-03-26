@@ -15,7 +15,8 @@ if (!publishableKey) {
 }
 
 app.use(clerkPlugin, {
-  publishableKey
+  publishableKey,
+  domain: 'hackmidu.netlify.app'
 })
 
 app.use(router)
