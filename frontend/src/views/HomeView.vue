@@ -125,7 +125,7 @@ watch(() => route.params.year, () => fetchProjects())
         EXPLORA EL <span class="text-green-400 drop-shadow-[0_0_10px_rgba(74,222,128,0.5)]">CÓDIGO</span> DE LA COMUNIDAD
       </h1>
       <p class="text-lg text-gray-300 max-w-2xl leading-relaxed border-l-2 border-green-900/30 pl-6 italic">
-        >> Descubriendo la innovación y el talento en cada edición de la <span class="text-green-400/80 underline decoration-green-900 underline-offset-4">hackmidu</span> Regístrate y comparte tu proyecto.
+        >> Descubriendo la innovación y el talento en cada edición de la <span class="text-green-400/80 underline decoration-green-900 underline-offset-4">hackmidu.</span> <br>Regístrate y comparte tu proyecto.
       </p>
     </header>
 
