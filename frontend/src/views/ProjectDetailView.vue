@@ -70,12 +70,12 @@ const handleLike = async () => {
   try {
     isLiking.value = true
     const token = await getToken.value()
-    console.log('Token obtenido:', token ? token.substring(0, 50) + '...' : 'NULL')
     const response = await projectService.toggleLike(route.params.id, token)
-    
+
     isLiked.value = response.data.liked
     project.value.likes = response.data.likes
   } catch (err) {
+
     console.error('Error al dar like:', err)
     toast.error('Error al dar like')
   } finally {
