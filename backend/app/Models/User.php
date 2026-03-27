@@ -36,6 +36,18 @@ class User extends Authenticatable
     ];
 
     /**
+     * Ocultar emails temporales de Clerk en las respuestas JSON.
+     */
+    public function toArray()
+    {
+        $array = parent::toArray();
+        if (isset($array['email']) && str_ends_with($array['email'], '@no-email.temp')) {
+            $array['email'] = '';
+        }
+        return $array;
+    }
+
+    /**
      * Get the projects for the user.
      */
     public function projects()

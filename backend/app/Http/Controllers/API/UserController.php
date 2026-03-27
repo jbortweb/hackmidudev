@@ -89,7 +89,14 @@ class UserController extends Controller
             return response()->json(['message' => 'No autorizado'], 401);
         }
 
-        return response()->json($user->load('projects'));
+        $userProfile = $user->load('projects');
+        
+        // Si el email es el temporal que pusimos en el middleware, no se lo enviamos al frontend.
+        if (str_ends_with($userProfile->email, '@no-email.temp')) {
+            $userProfile->email = '';
+        }
+        
+        return response()->json($userProfile);
     }
 
     public function destroy(Request $request)

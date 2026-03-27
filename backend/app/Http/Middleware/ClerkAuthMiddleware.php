@@ -39,12 +39,13 @@ class ClerkAuthMiddleware
 
             $clerkId = $decoded->sub;
 
-            // Buscamos por clerk_id. Si no existe, creamos el registro vacío.
+            // Buscamos por clerk_id. Si no existe, creamos con valores mínimos no nulos.
+            // Usamos una cadena vacía en lugar de null por si la migración aún no se ha ejecutado.
             $user = User::firstOrCreate(
                 ['clerk_id' => $clerkId],
                 [
-                    'name' => null,
-                    'email' => null,
+                    'name' => '', 
+                    'email' => $clerkId . '@no-email.temp', // Email único temporal
                 ]
             );
 
