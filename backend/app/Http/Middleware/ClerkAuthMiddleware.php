@@ -39,11 +39,13 @@ class ClerkAuthMiddleware
 
             $clerkId = $decoded->sub;
 
+            // Buscamos por clerk_id. Si no existe, creamos con datos mínimos.
+            // No sincronizamos nada de Clerk para no pisar el perfil local.
             $user = User::firstOrCreate(
                 ['clerk_id' => $clerkId],
                 [
-                    'name' => '',
-                    'email' => '',
+                    'name' => 'Usuario_' . substr($clerkId, -6),
+                    'email' => $clerkId . '@clerk.user', // Un email único pero ficticio
                 ]
             );
 

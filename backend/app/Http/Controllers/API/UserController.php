@@ -22,47 +22,58 @@ class UserController extends Controller
         }
 
         $validatedData = $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email|max:255',
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|max:255',
             'avatar_url' => 'nullable|string|max:500',
             'github_url' => 'nullable|string|max:500',
             'linkedin_url' => 'nullable|string|max:500',
             'website_url' => 'nullable|string|max:500',
         ]);
 
-        if (!empty($validatedData['avatar_url'])) {
-            $incomingAvatar = $validatedData['avatar_url'];
-            $isStorageAvatar = str_starts_with($incomingAvatar, '/storage/');
-            
-            if ($isStorageAvatar) {
-                $user->avatar_url = $incomingAvatar;
-            } elseif (empty($user->avatar_url)) {
-                $user->avatar_url = $incomingAvatar;
+        try {
+            if (isset($validatedData['name'])) {
+                $user->name = $validatedData['name'];
             }
-        }
+            
+            if (isset($validatedData['email'])) {
+                // Solo actualizamos el email si no pertenece a otro usuario con distinto clerk_id
+                $exists = User::where('email', $validatedData['email'])
+                              ->where('clerk_id', '!=', $user->clerk_id)
+                              ->exists();
+                if (!$exists) {
+                    $user->email = $validatedData['email'];
+                }
+            }
 
-        if (!empty($validatedData['name'])) {
-            $user->name = $validatedData['name'];
-        }
-        if (!empty($validatedData['email'])) {
-            $user->email = $validatedData['email'];
-        }
-        if (!empty($validatedData['github_url'])) {
-            $user->github_url = $validatedData['github_url'];
-        }
-        if (!empty($validatedData['linkedin_url'])) {
-            $user->linkedin_url = $validatedData['linkedin_url'];
-        }
-        if (!empty($validatedData['website_url'])) {
-            $user->website_url = $validatedData['website_url'];
-        }
-        
-        $user->save();
+            if (!empty($validatedData['avatar_url'])) {
+                $user->avatar_url = $validatedData['avatar_url'];
+            }
+            
+            if (isset($validatedData['github_url'])) {
+                $user->github_url = $validatedData['github_url'];
+            }
+            
+            if (isset($validatedData['linkedin_url'])) {
+                $user->linkedin_url = $validatedData['linkedin_url'];
+            }
+            
+            if (isset($validatedData['website_url'])) {
+                $user->website_url = $validatedData['website_url'];
+            }
+            
+            $user->save();
 
-        return response()->json([
-            'message' => 'Usuario sincronizado correctamente',
-            'user' => $user
-        ]);
+            return response()->json([
+                'message' => 'Perfil actualizado correctamente',
+                'user' => $user
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error sync perfil: ' . $e->getMessage());
+            return response()->json([
+                'message' => 'Error al guardar perfil',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**

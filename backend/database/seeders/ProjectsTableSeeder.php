@@ -11,12 +11,11 @@ class ProjectsTableSeeder extends Seeder
     {
         // 1. USUARIOS ORIGINALES CON SUS LINKS
         $users = [
-            ['clerk_id' => 'user_devrobots', 'name' => 'Dev Robots', 'email' => 'devrobots@example.com'],
-            ['clerk_id' => 'user_iamyare', 'name' => 'Yare García', 'email' => 'iamyare@example.com'],
-            ['clerk_id' => 'user_qwarkdev', 'name' => 'Quark Dev', 'email' => 'qwarkdev@example.com'],
-            ['clerk_id' => 'user_3BOxOCtA4jCHZhkVrMbi5fgauIn', 'name' => 'Jordi Bort', 'email' => 'jbortweb@gmail.com'],
-            ['clerk_id' => 'user_cosmoart', 'name' => 'Cosmo Art', 'email' => 'cosmoart@example.com'],
-            ['clerk_id' => 'user_zclut', 'name' => 'ZC Luth', 'email' => 'zclut@example.com'],
+            ['clerk_id' => 'user_devrobots', 'name' => 'Dev Robots', 'email' => 'devrobots@fake.com'],
+            ['clerk_id' => 'user_iamyare', 'name' => 'Yare García', 'email' => 'iamyare@fake.com'],
+            ['clerk_id' => 'user_qwarkdev', 'name' => 'Quark Dev', 'email' => 'qwarkdev@fake.com'],
+            ['clerk_id' => 'user_cosmoart', 'name' => 'Cosmo Art', 'email' => 'cosmoart@fake.com'],
+            ['clerk_id' => 'user_zclut', 'name' => 'ZC Luth', 'email' => 'zclut@fake.com'],
         ];
 
         $userIds = [];
@@ -31,9 +30,9 @@ class ProjectsTableSeeder extends Seeder
                 'name' => $user['name'],
                 'email' => $user['email'],
                 'avatar_url' => null,
-                'github_url' => $user['clerk_id'] === 'user_3BOxOCtA4jCHZhkVrMbi5fgauIn' ? 'https://github.com/jbortweb' : 'https://github.com/' . strtolower(str_replace(' ', '', $user['name'])),
-                'linkedin_url' => $user['clerk_id'] === 'user_3BOxOCtA4jCHZhkVrMbi5fgauIn' ? 'https://www.linkedin.com/in/jordi-bort/' : null,
-                'website_url' => $user['clerk_id'] === 'user_3BOxOCtA4jCHZhkVrMbi5fgauIn' ? 'https://portafoliojbortweb.netlify.app/' : null,
+                'github_url' => 'https://github.com/' . strtolower(str_replace(' ', '', $user['name'])),
+                'linkedin_url' => null,
+                'website_url' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -78,18 +77,6 @@ class ProjectsTableSeeder extends Seeder
                 'user_index' => 2
             ],
             [
-                'author' => 'jbortweb',
-                'title' => 'Lencería Maduixa',
-                'description' => 'E-commerce especializado en lencería de diseño local. Experiencia de compra fluida con integración de pagos en tiempo real y gestión de inventario.',
-                'technologies' => 'Astro,Shopify,Svelte,TailwindCSS',
-                'images' => json_encode(['/img/proyectos/lenceria.webp']),
-                'project_url' => 'https://www.lenceriamaduixa.com/',
-                'repo_url' => 'https://github.com/jbortweb/lenceria-maduixa',
-                'year' => 2025,
-                'winner' => 0,
-                'user_index' => 3
-            ],
-            [
                 'author' => 'cosmoart',
                 'title' => 'Atomox',
                 'description' => 'Plataforma para el intercambio de componentes de UI. Los desarrolladores pueden publicar sus creaciones y otros pueden instalarlas vía CLI.',
@@ -99,7 +86,7 @@ class ProjectsTableSeeder extends Seeder
                 'repo_url' => 'https://github.com/cosmoart/Atomox',
                 'year' => 2025,
                 'winner' => 0,
-                'user_index' => 4
+                'user_index' => 3
             ],
             [
                 'author' => 'zclut',
@@ -111,7 +98,7 @@ class ProjectsTableSeeder extends Seeder
                 'repo_url' => 'https://github.com/zclut',
                 'year' => 2025,
                 'winner' => 0,
-                'user_index' => 5
+                'user_index' => 4
             ],
         ];
 
