@@ -24,7 +24,8 @@ const form = ref({
   images: [],
   project_url: '',
   repo_url: '',
-  year: new Date().getFullYear()
+  year: new Date().getFullYear(),
+  winner: 0
 })
 
 watch([isLoaded, isSignedIn], ([loaded, signedIn]) => {
@@ -48,7 +49,8 @@ const fetchProject = async () => {
         images: project.images || [],
         project_url: project.project_url,
         repo_url: project.repo_url,
-        year: project.year
+        year: project.year,
+        winner: project.winner || 0
       }
     } catch (err) {
       console.error('Error al cargar proyecto:', err)
@@ -165,6 +167,28 @@ onMounted(() => {
               class="w-full bg-black border border-green-500/20 rounded-lg px-4 py-3 text-white placeholder:text-green-900 focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500/50 transition-all"
             />
           </div>
+
+          <!-- Premios (Winner) -->
+          <div class="space-y-2">
+            <label class="text-[10px] text-green-500 uppercase font-black tracking-widest">PROYECTO_GANADOR?</label>
+            <select 
+              v-model="form.winner"
+              class="w-full bg-black border border-green-500/20 rounded-lg px-4 py-3 text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500/50 transition-all appearance-none cursor-pointer"
+            >
+              <option :value="0">SIN PREMIO</option>
+              <option :value="1">1º PREMIO</option>
+              <option :value="2">2º PREMIO</option>
+              <option :value="3">3º PREMIO</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Aviso Legal Ganadores -->
+        <div v-if="form.winner > 0" class="p-4 bg-yellow-500/10 border border-yellow-500/30 rounded flex gap-4">
+          <AlertTriangle :size="20" class="text-yellow-500 shrink-0" />
+          <p class="text-yellow-400 text-[10px] leading-relaxed uppercase italic font-black">
+            ATENCIÓN: Declararse ganador sin haberlo sido conlleva la eliminación inmediata del proyecto y del usuario de la plataforma. Este campo será verificado por los administradores.
+          </p>
         </div>
 
         <!-- Descripción -->

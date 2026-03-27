@@ -26,7 +26,13 @@ class ProjectController extends Controller
         }
 
         $perPage = $request->input('per_page', 12);
-        $projects = $query->orderBy('created_at', 'desc')->paginate($perPage);
+        
+        // ORDEN: Primero ganadores (1, 2, 3), luego por fecha (más nuevos primero)
+        // Usamos una expresión raw para que winner > 0 vaya arriba, y luego ordenamos por el valor de winner y fecha.
+        $projects = $query->orderByRaw('CASE WHEN winner > 0 THEN 0 ELSE 1 END')
+                          ->orderByRaw('CASE WHEN winner > 0 THEN winner ELSE 0 END', 'ASC')
+                          ->orderBy('created_at', 'desc')
+                          ->paginate($perPage);
         
         return response()->json($projects);
     }
@@ -50,11 +56,12 @@ class ProjectController extends Controller
             'project_url' => 'nullable|url|max:255',
             'repo_url' => 'nullable|url|max:255',
             'year' => 'required|integer',
+            'winner' => 'nullable|integer|between:0,3',
         ]);
 
         $project = new Project($validatedData);
         $project->user_id = $user->id;
-        $project->author = $user->name;
+        $project->author = $user->name ?? 'Usuario Anónimo';
         $project->likes = 0;
         $project->save();
 
@@ -87,6 +94,7 @@ class ProjectController extends Controller
             'project_url' => 'nullable|url|max:255',
             'repo_url' => 'nullable|url|max:255',
             'year' => 'sometimes|required|integer',
+            'winner' => 'nullable|integer|between:0,3',
         ]);
 
         $project->update($validatedData);

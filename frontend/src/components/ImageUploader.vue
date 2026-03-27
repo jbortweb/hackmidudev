@@ -139,37 +139,36 @@ const getImageUrl = (url) => {
 </script>
 
 <template>
-  <div class="space-y-3">
-    <!-- Preview de imagen actual -->
-    <div v-if="getImages().length > 0" class="flex items-center gap-4">
+  <div class="space-y-4">
+    <!-- Preview de todas las imágenes -->
+    <div v-if="getImages().length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       <div 
-        class="relative rounded-lg overflow-hidden border border-green-500/20 group"
-        :class="isSingleMode ? 'w-24 h-24' : 'w-32 aspect-video'"
+        v-for="(url, index) in getImages()" 
+        :key="index"
+        class="relative rounded-lg overflow-hidden border border-green-500/20 group aspect-video"
+        :class="isSingleMode ? 'max-w-[150px] aspect-square' : ''"
       >
         <img 
-          :src="getImageUrl(getImages()[0])" 
-          alt="Imagen actual"
+          :src="getImageUrl(url)" 
+          alt="Imagen subida"
           class="w-full h-full object-cover"
         />
         
         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
           <button 
             type="button"
-            @click="removeImage(0)"
+            @click="removeImage(index)"
             class="p-2 bg-red-500/80 rounded-full hover:bg-red-500 transition-colors"
           >
             <X :size="16" class="text-white" />
           </button>
         </div>
       </div>
-      
-      <p v-if="isSingleMode" class="text-green-500/50 text-xs">
-        Selecciona otra para reemplazar
-      </p>
     </div>
 
     <!-- Zona de subida -->
     <div 
+      v-if="isSingleMode || getImages().length < maxImages"
       class="relative border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer"
       :class="[
         isDragging ? 'border-green-500 bg-green-500/10' : 'border-green-500/30 hover:border-green-500/50',
@@ -211,31 +210,6 @@ const getImageUrl = (url) => {
         </p>
         
         <p v-if="error" class="text-red-500 text-xs">{{ error }}</p>
-      </div>
-    </div>
-
-    <!-- Más imágenes (solo si no es modo single y hay espacio) -->
-    <div v-if="!isSingleMode && getImages().length > 0 && getImages().length < maxImages" :class="['grid', 'gap-3', 'grid-cols-3']">
-      <div 
-        v-for="(url, index) in getImages().slice(1)" 
-        :key="index"
-        class="relative aspect-video rounded-lg overflow-hidden border border-green-500/20 group"
-      >
-        <img 
-          :src="getImageUrl(url)" 
-          :alt="'Imagen ' + (index + 2)"
-          class="w-full h-full object-cover"
-        />
-        
-        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <button 
-            type="button"
-            @click="removeImage(index + 1)"
-            class="p-2 bg-red-500/80 rounded-full hover:bg-red-500 transition-colors"
-          >
-            <X :size="16" class="text-white" />
-          </button>
-        </div>
       </div>
     </div>
   </div>
