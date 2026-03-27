@@ -28,9 +28,8 @@ class ProjectController extends Controller
         $perPage = $request->input('per_page', 12);
         
         // ORDEN: Primero ganadores (1, 2, 3), luego por fecha (más nuevos primero)
-        // Usamos una expresión raw para que winner > 0 vaya arriba, y luego ordenamos por el valor de winner y fecha.
-        $projects = $query->orderByRaw('CASE WHEN winner > 0 THEN 0 ELSE 1 END')
-                          ->orderByRaw('CASE WHEN winner > 0 THEN winner ELSE 0 END', 'ASC')
+        $projects = $query->orderByRaw('winner > 0 DESC')
+                          ->orderByRaw('CASE WHEN winner = 0 THEN 999 ELSE winner END ASC')
                           ->orderBy('created_at', 'desc')
                           ->paginate($perPage);
         
