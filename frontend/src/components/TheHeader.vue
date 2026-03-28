@@ -47,14 +47,14 @@ const confirmLogout = async () => {
     <div class="container mx-auto px-4 h-20 flex items-center justify-between">
       
       <!-- Logo tipo terminal -->
-      <router-link to="/" class="flex items-center group">
+      <router-link to="/" class="flex items-center group shrink-0">
         <div class="relative">
-          <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.6)] group-hover:scale-105 transition-transform overflow-hidden border-2 border-green-400">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 bg-green-500 rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(34,197,94,0.6)] group-hover:scale-105 transition-transform overflow-hidden border-2 border-green-400">
             <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/ff538181-5311-4b24-8765-48630db88a93-profile_image-70x70.png" alt="Midudev" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all" />
           </div>
           <div class="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-[0_0_10px_#4ade80]"></div>
         </div>
-        <div class="ml-4 hidden sm:block">
+        <div class="ml-3 hidden md:block">
           <span class="text-green-400 font-mono text-xl font-black tracking-widest uppercase drop-shadow-[0_0_8px_rgba(74,222,128,0.5)]">
             hack<span class="text-white">midu</span>
           </span>
@@ -63,58 +63,57 @@ const confirmLogout = async () => {
       </router-link>
 
       <!-- Menú y Auth -->
-      <nav class="flex items-center gap-6">
-        <div class="hidden md:flex items-center gap-6">
-          <!-- Dropdown de Años -->
-          <div class="relative">
-            <button 
-              @click="showYearDropdown = !showYearDropdown"
-              class="flex items-center gap-2 text-[10px] font-black text-green-400 hover:text-white transition-all tracking-widest uppercase"
-            >
-              <Calendar :size="16" />
-              <span class="hidden lg:inline">
-                {{ route.params.year ? route.params.year : currentYear }}
-              </span>
-              <ChevronDown v-if="!showYearDropdown" :size="14" />
-              <ChevronUp v-else :size="14" />
-            </button>
+      <nav class="flex items-center gap-2 sm:gap-6">
+        
+        <!-- Dropdown de Años -->
+        <div class="relative">
+          <button 
+            @click="showYearDropdown = !showYearDropdown"
+            class="flex items-center gap-1.5 sm:gap-2 text-[10px] font-black text-green-400 hover:text-white transition-all tracking-widest uppercase bg-green-500/5 px-2 py-1.5 rounded border border-green-500/20"
+          >
+            <Calendar :size="14" />
+            <span class="inline">
+              {{ route.params.year ? route.params.year : currentYear }}
+            </span>
+            <ChevronDown v-if="!showYearDropdown" :size="12" />
+            <ChevronUp v-else :size="12" />
+          </button>
 
-            <!-- Dropdown Menu -->
-            <Transition name="dropdown">
-              <div 
-                v-if="showYearDropdown"
-                class="absolute top-full left-0 mt-2 bg-black border border-green-500/30 rounded-lg shadow-[0_0_30px_rgba(34,197,94,0.2)] min-w-[160px] overflow-hidden"
+          <!-- Dropdown Menu -->
+          <Transition name="dropdown">
+            <div 
+              v-if="showYearDropdown"
+              class="absolute top-full right-0 sm:left-0 mt-2 bg-black border border-green-500/30 rounded-lg shadow-[0_0_30px_rgba(34,197,94,0.2)] min-w-[140px] overflow-hidden"
+            >
+              <button
+                v-for="item in years"
+                :key="item.year"
+                @click="selectYear(item.year)"
+                class="w-full px-4 py-3 text-left text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-between"
+                :class="[
+                  isYearActive(item.year) 
+                    ? 'bg-green-500/20 text-green-400 border-l-2 border-green-500' 
+                    : 'text-gray-400 hover:text-white hover:bg-green-500/10 border-l-2 border-transparent'
+                ]"
               >
-                <button
-                  v-for="item in years"
-                  :key="item.year"
-                  @click="selectYear(item.year)"
-                  class="w-full px-4 py-3 text-left text-[10px] font-black uppercase tracking-widest transition-all flex items-center justify-between"
-                  :class="[
-                    isYearActive(item.year) 
-                      ? 'bg-green-500/20 text-green-400 border-l-2 border-green-500' 
-                      : 'text-gray-400 hover:text-white hover:bg-green-500/10 border-l-2 border-transparent'
-                  ]"
-                >
-                  {{ item.label }}
-                </button>
-              </div>
-            </Transition>
-          </div>
+                {{ item.label }}
+              </button>
+            </div>
+          </Transition>
         </div>
         
-        <div class="h-8 w-px bg-green-500/20 hidden sm:block"></div>
+        <div class="h-6 w-px bg-green-500/20 hidden sm:block"></div>
 
         <!-- Estado: No autenticado -->
         <template v-if="!isSignedIn">
-          <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2 sm:gap-4">
             <SignInButton mode="modal">
-              <button class="text-[10px] font-black text-green-500 hover:text-white cursor-pointer uppercase tracking-widest transition-all italic">
-                // ACCEDER.sh
+              <button class="text-[9px] sm:text-[10px] font-black text-green-500 hover:text-white cursor-pointer uppercase tracking-widest transition-all italic">
+                // ACCEDER
               </button>
             </SignInButton>
             <SignUpButton mode="modal">
-              <button class="bg-green-500 text-black px-4 py-2 rounded font-black text-[10px] hover:bg-white transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] cursor-pointer uppercase tracking-widest italic">
+              <button class="bg-green-500 text-black px-3 py-1.5 sm:px-4 sm:py-2 rounded font-black text-[9px] sm:text-[10px] hover:bg-white transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] cursor-pointer uppercase tracking-widest italic">
                 REGISTRO
               </button>
             </SignUpButton>
@@ -123,7 +122,7 @@ const confirmLogout = async () => {
         
         <!-- Estado: Autenticado -->
         <template v-else>
-          <div class="flex items-center gap-4">
+          <div class="flex items-center gap-3 sm:gap-5">
             <router-link to="/dashboard" class="flex items-center gap-2 text-green-500 hover:text-white transition-all group" title="Dashboard">
               <LayoutDashboard :size="18" class="group-hover:drop-shadow-[0_0_5px_rgba(34,197,94,0.8)]" />
               <span class="hidden lg:inline text-[10px] font-black tracking-widest uppercase italic">DASHBOARD</span>

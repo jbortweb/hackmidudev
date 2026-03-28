@@ -92,7 +92,7 @@ onMounted(() => {
           <Terminal :size="32" />
         </div>
         <div>
-          <h1 class="text-3xl font-black text-white uppercase tracking-tighter">SISTEMA_DASHBOARD.sh</h1>
+          <h1 class="sm:text-xl text-3xl font-black text-white uppercase tracking-tighter">SISTEMA_DASHBOARD.sh</h1>
           <p class="text-green-500/60 text-xs italic mt-1 uppercase">
             > SESIÓN_ACTIVA: {{ user?.username || 'user_root' }} // ESTADO: EN_LÍNEA
           </p>

@@ -127,7 +127,7 @@ onMounted(() => {
       <!-- Header del Formulario -->
       <div class="bg-green-500/10 border-b border-green-500/20 p-8 flex items-center justify-between">
         <div>
-          <h1 class="text-3xl font-black text-white uppercase tracking-tighter">CONFIG_PERFIL.sh</h1>
+          <h1 class="text-3xl font-black text-white uppercase tracking-tighter text-center">CONFIG_PERFIL.sh</h1>
           <p class="text-green-500/60 text-xs italic mt-2 uppercase">
             > Nodo_Usuario: {{ form.name || 'usuario_nuevo' }}
           </p>
@@ -246,7 +246,7 @@ onMounted(() => {
             :disabled="loading"
             class="flex items-center gap-3 px-12 py-3 bg-green-500 text-black rounded font-black hover:bg-white transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)] disabled:opacity-50 disabled:cursor-not-allowed uppercase text-xs italic tracking-widest"
           >
-            <span v-if="loading" class="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></span>
+            <span v-if="loading" class="w-4 h-4 m-auto border-2 border-black border-t-transparent rounded-full animate-spin"></span>
             <Save v-else :size="18" />
             {{ loading ? 'SINC_EN_CURSO...' : 'GUARDAR_DATOS.deb' }}
           </button>
@@ -268,7 +268,7 @@ onMounted(() => {
           :disabled="deleting"
           class="flex items-center gap-3 px-6 py-3 border border-red-500/50 text-red-400 rounded-lg font-black text-xs hover:bg-red-500/10 hover:border-red-400 transition-all uppercase italic tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span v-if="deleting" class="w-4 h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin"></span>
+          <span v-if="deleting" class="w-4 h-4 m-autoborder-2 border-red-400 border-t-transparent rounded-full animate-spin"></span>
           <Trash2 v-else :size="16" />
           {{ deleting ? 'ELIMINANDO...' : 'ELIMINAR_CUENTA.deb' }}
         </button>
