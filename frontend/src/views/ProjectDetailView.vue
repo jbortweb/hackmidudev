@@ -247,7 +247,7 @@ onMounted(fetchProject)
             <h2 class="text-xl font-black text-white mb-8 uppercase tracking-tighter italic flex items-center gap-3">
               <span class="text-green-500">>></span> DESCRIPCIÓN_DEL_PROYECTO
             </h2>
-            <p class="text-gray-300 leading-relaxed sm:text-md text-lg whitespace-pre-wrap font-medium">
+            <p class="text-gray-300 leading-relaxed text-sm md:text-lg whitespace-pre-wrap font-medium">
               {{ project.description }}
             </p>
           </div>

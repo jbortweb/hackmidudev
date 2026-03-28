@@ -26,8 +26,12 @@ const form = ref({
 })
 
 watch([isLoaded, isSignedIn], ([loaded, signedIn]) => {
-  if (loaded && !signedIn) {
-    router.push('/')
+  if (loaded) {
+    if (!signedIn) {
+      router.push('/')
+    } else {
+      fetchProfile()
+    }
   }
 })
 
@@ -233,10 +237,10 @@ onMounted(() => {
         </div>
 
         <!-- Acciones del Formulario -->
-        <div class="pt-8 border-t border-green-500/10 flex justify-end gap-6">
+        <div class="pt-8 border-t border-green-500/10 flex flex-col sm:flex-row justify-center sm:justify-end items-center gap-6">
           <router-link 
             to="/dashboard"
-            class="px-8 py-3 text-green-500/50 hover:text-green-500 uppercase font-black text-xs transition-all italic"
+            class="w-full sm:w-auto text-center px-8 py-3 text-green-500/50 hover:text-green-500 uppercase font-black text-xs transition-all italic"
           >
             DESCARTAR.sh
           </router-link>
@@ -244,9 +248,9 @@ onMounted(() => {
           <button 
             type="submit"
             :disabled="loading"
-            class="flex items-center gap-3 px-12 py-3 bg-green-500 text-black rounded font-black hover:bg-white transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)] disabled:opacity-50 disabled:cursor-not-allowed uppercase text-xs italic tracking-widest"
+            class="w-full sm:w-auto flex items-center justify-center gap-3 px-12 py-3 bg-green-500 text-black rounded font-black hover:bg-white transition-all shadow-[0_0_30px_rgba(34,197,94,0.3)] disabled:opacity-50 disabled:cursor-not-allowed uppercase text-xs italic tracking-widest"
           >
-            <span v-if="loading" class="w-4 h-4 m-auto border-2 border-black border-t-transparent rounded-full animate-spin"></span>
+            <span v-if="loading" class="w-4 h-4 border-2 border-black border-t-transparent rounded-full animate-spin"></span>
             <Save v-else :size="18" />
             {{ loading ? 'SINC_EN_CURSO...' : 'GUARDAR_DATOS.deb' }}
           </button>
@@ -255,20 +259,20 @@ onMounted(() => {
       </form>
 
       <!-- Zona de Peligro -->
-      <div class="p-8 border-t border-red-500/20 bg-red-500/5">
+      <div class="p-8 border-t border-red-500/20 bg-red-500/5 flex flex-col items-center sm:items-start text-center sm:text-left">
         <h3 class="text-red-400 text-xs font-black uppercase tracking-widest mb-4 flex items-center gap-2">
           <Trash2 :size="14" />
           ZONA_DE_PELIGRO
         </h3>
-        <p class="text-gray-500 text-[10px] mb-6 leading-relaxed">
+        <p class="text-gray-500 text-[10px] mb-6 leading-relaxed max-w-xs sm:max-w-none">
           Al eliminar tu cuenta se borrarán todos tus proyectos y datos asociados. Esta acción no se puede deshacer.
         </p>
         <button 
           @click="handleDeleteAccount"
           :disabled="deleting"
-          class="flex items-center gap-3 px-6 py-3 border border-red-500/50 text-red-400 rounded-lg font-black text-xs hover:bg-red-500/10 hover:border-red-400 transition-all uppercase italic tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
+          class="w-full sm:w-auto flex items-center justify-center gap-3 px-6 py-3 border border-red-500/50 text-red-400 rounded-lg font-black text-xs hover:bg-red-500/10 hover:border-red-400 transition-all uppercase italic tracking-widest disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span v-if="deleting" class="w-4 h-4 m-autoborder-2 border-red-400 border-t-transparent rounded-full animate-spin"></span>
+          <span v-if="deleting" class="w-4 h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin"></span>
           <Trash2 v-else :size="16" />
           {{ deleting ? 'ELIMINANDO...' : 'ELIMINAR_CUENTA.deb' }}
         </button>

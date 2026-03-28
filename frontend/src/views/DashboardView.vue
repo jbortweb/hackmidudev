@@ -86,14 +86,14 @@ onMounted(() => {
     </router-link>
 
     <!-- Terminal Header -->
-    <header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-b border-green-500/20 pb-8">
-      <div class="flex items-center gap-4">
-        <div class="p-3 bg-green-500/10 text-green-500 rounded-lg border border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.1)]">
+    <header class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 border-b border-green-500/20 pb-8 overflow-hidden">
+      <div class="flex items-start sm:items-center gap-4 min-w-0">
+        <div class="p-3 bg-green-500/10 text-green-500 rounded-lg border border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.1)] shrink-0">
           <Terminal :size="32" />
         </div>
-        <div>
-          <h1 class="sm:text-xl text-3xl font-black text-white uppercase tracking-tighter">SISTEMA_DASHBOARD.sh</h1>
-          <p class="text-green-500/60 text-xs italic mt-1 uppercase">
+        <div class="min-w-0">
+          <h1 class="text-xl sm:text-2xl md:text-3xl font-black text-white uppercase tracking-tighter truncate sm:whitespace-normal break-all">SISTEMA_DASHBOARD.sh</h1>
+          <p class="text-green-500/60 text-[10px] sm:text-xs italic mt-1 uppercase break-all sm:break-normal">
             > SESIÓN_ACTIVA: {{ user?.username || 'user_root' }} // ESTADO: EN_LÍNEA
           </p>
         </div>
@@ -101,7 +101,7 @@ onMounted(() => {
 
       <router-link 
         to="/project/create"
-        class="flex items-center justify-center gap-3 px-8 py-3 bg-green-500 text-black rounded font-black hover:bg-white transition-all shadow-[0_0_30px_rgba(34,197,94,0.2)] uppercase text-xs italic tracking-widest"
+        class="flex items-center justify-center gap-3 px-4 sm:px-8 py-3 bg-green-500 text-black rounded font-black hover:bg-white transition-all shadow-[0_0_30px_rgba(34,197,94,0.2)] uppercase text-xs italic tracking-widest shrink-0"
       >
         <Plus :size="18" />
         NUEVO_PROYECTO.deb
