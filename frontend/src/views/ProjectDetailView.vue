@@ -181,7 +181,7 @@ onMounted(fetchProject)
               <a v-if="project.user?.linkedin_url" :href="project.user.linkedin_url" target="_blank" class="flex items-center gap-3 w-full p-4 border border-green-900/20 rounded-2xl text-green-400 text-xs font-black hover:border-green-500 hover:bg-green-500/5 transition-all">
                 <Linkedin :size="18" /> LINKEDIN_USUARIO
               </a>
-              <a v-if="project.project_url" :href="project.project_url" target="_blank" class="flex items-center gap-3 w-full p-4 border border-green-900/20 rounded-2xl text-green-400 text-xs font-black hover:border-green-500 hover:bg-green-500/5 transition-all">
+              <a v-if="project.user?.website_url" :href="project.user?.website_url" target="_blank" class="flex items-center gap-3 w-full p-4 border border-green-900/20 rounded-2xl text-green-400 text-xs font-black hover:border-green-500 hover:bg-green-500/5 transition-all">
                 <Globe :size="18" /> PERSONAL_SITIO_WEB
               </a>
               <a v-if="project.user?.email" :href="'mailto:' + project.user.email" class="flex items-center gap-3 w-full p-4 border border-green-900/20 rounded-2xl text-green-400 text-xs font-black hover:border-green-500 hover:bg-green-500/5 transition-all">
