@@ -45,21 +45,37 @@ const currentYearProjects = computed(() => {
   const projects = Array.isArray(allProjects.value) ? allProjects.value : []
   return projects
     .filter(p => p.year == year)
-    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .sort((a, b) => {
+      if (a.winner > 0 && b.winner > 0) return a.winner - b.winner
+      if (a.winner > 0) return -1
+      if (b.winner > 0) return 1
+      return new Date(b.created_at) - new Date(a.created_at)
+    })
 })
 
 const olderProjects = computed(() => {
   const projects = Array.isArray(allProjects.value) ? allProjects.value : []
   return projects
     .filter(p => p.year !== currentYear)
-    .sort((a, b) => b.year - a.year || new Date(b.created_at) - new Date(a.created_at))
+    .sort((a, b) => {
+      if (b.year !== a.year) return b.year - a.year
+      if (a.winner > 0 && b.winner > 0) return a.winner - b.winner
+      if (a.winner > 0) return -1
+      if (b.winner > 0) return 1
+      return new Date(b.created_at) - new Date(a.created_at)
+    })
 })
 
 const selectedYearProjects = computed(() => {
   const projects = Array.isArray(allProjects.value) ? allProjects.value : []
   return projects
     .filter(p => p.year === selectedYear.value)
-    .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+    .sort((a, b) => {
+      if (a.winner > 0 && b.winner > 0) return a.winner - b.winner
+      if (a.winner > 0) return -1
+      if (b.winner > 0) return 1
+      return new Date(b.created_at) - new Date(a.created_at)
+    })
 })
 
 const displayTotal = computed(() => {
