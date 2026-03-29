@@ -175,7 +175,7 @@ onMounted(fetchProject)
             </div>
 
             <div class="space-y-3">
-              <a v-if="project.repo_url" :href="project.repo_url" target="_blank" class="flex items-center gap-3 w-full p-4 border border-green-900/20 rounded-2xl text-green-400 text-xs font-black hover:border-green-500 hover:bg-green-500/5 transition-all">
+              <a v-if="project.user?.github_url" :href="project.user?.github_url" target="_blank" class="flex items-center gap-3 w-full p-4 border border-green-900/20 rounded-2xl text-green-400 text-xs font-black hover:border-green-500 hover:bg-green-500/5 transition-all">
                 <Github :size="18" /> GITHUB_PERFIL
               </a>
               <a v-if="project.user?.linkedin_url" :href="project.user.linkedin_url" target="_blank" class="flex items-center gap-3 w-full p-4 border border-green-900/20 rounded-2xl text-green-400 text-xs font-black hover:border-green-500 hover:bg-green-500/5 transition-all">
