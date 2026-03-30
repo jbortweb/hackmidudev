@@ -61,6 +61,12 @@ const uploadFiles = async (files) => {
     for (const file of files) {
       if (!file.type.startsWith('image/')) continue
       
+      // Validar tamaño máximo (2MB = 2 * 1024 * 1024 bytes)
+      if (file.size > 2 * 1024 * 1024) {
+        error.value = `La imagen "${file.name}" supera los 2MB`
+        continue
+      }
+      
       if (images.length >= props.maxImages && !isSingleMode) break
       
       const formData = new FormData()
@@ -206,7 +212,7 @@ const getImageUrl = (url) => {
         </div>
         
         <p class="text-green-900 text-[10px] uppercase">
-          JPG, PNG, WEBP, GIF • Máx 5MB
+          JPG, PNG, WEBP, GIF • Máx 2MB
         </p>
         
         <p v-if="error" class="text-red-500 text-xs">{{ error }}</p>
