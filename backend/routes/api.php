@@ -19,6 +19,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/projects', [ProjectController::class, 'index']);
 Route::get('/projects/{id}', [ProjectController::class, 'show']);
 
+Route::get('/db-check', function () {
+    $path = config('database.connections.sqlite.database');
+    return response()->json([
+        'database_path' => $path,
+        'exists' => file_exists($path),
+        'writable' => is_writable(dirname($path)),
+        'size' => file_exists($path) ? filesize($path) : 0,
+        'projects_count' => file_exists($path) ? \App\Models\Project::count() : 0,
+        'env_db' => env('DB_DATABASE'),
+    ]);
+});
+
 // Rutas Protegidas (Requieren autenticación de Clerk)
 Route::middleware('clerk.auth')->group(function () {
     // Usuario
